@@ -176,7 +176,7 @@ function setupEventListeners() {
     document.getElementById('loadGameBtn').addEventListener('click', () => loadGame());
     document.getElementById('configFromMenuBtn').addEventListener('click', () => showScreen('configScreen'));
     document.getElementById('titleFromMenuBtn').addEventListener('click', () => {
-        if(confirm('タイトルに戻りますか？')) showScreen('titleScreen');
+        if (confirm('タイトルに戻りますか？')) returnToTitle();
     });
 
     // キーボード操作
@@ -191,8 +191,39 @@ function showScreen(screenName) {
     document.getElementById(screenName).classList.add('active');
 }
 
+// ゲーム状態をリセット
+function resetGame() {
+    if (typeInterval) {
+        clearInterval(typeInterval);
+        typeInterval = null;
+    }
+    if (autoInterval) {
+        clearInterval(autoInterval);
+        autoInterval = null;
+    }
+    gameState.isTyping = false;
+    gameState.isAutoMode = false;
+    elements.gameText.textContent = '';
+    elements.nextIndicator.style.display = 'none';
+    elements.nameBox.style.display = 'none';
+    elements.choicesContainer.innerHTML = '';
+    currentScenario = {};
+    elements.bgmPlayer.pause();
+    elements.bgmPlayer.currentTime = 0;
+    elements.sePlayer.pause();
+    elements.sePlayer.currentTime = 0;
+}
+
+// タイトル画面に戻る
+function returnToTitle() {
+    resetGame();
+    gameState = new GameState();
+    showScreen('titleScreen');
+}
+
 // 新しいゲームを開始
 function startNewGame() {
+    resetGame();
     gameState = new GameState();
     showScreen('gameScreen');
     loadScene('start');
@@ -315,7 +346,7 @@ function showChoices() {
             const button = document.createElement('button');
             button.className = 'choice-btn';
             button.textContent = 'タイトルに戻る';
-            button.addEventListener('click', () => showScreen('titleScreen'));
+            button.addEventListener('click', () => returnToTitle());
             elements.choicesContainer.appendChild(button);
         }, 2000);
     }
