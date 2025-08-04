@@ -12,6 +12,7 @@
         <div class="title-container">
             <h1 class="main-title">放課後、願いはカセットに。</h1>
             <p class="subtitle">～ 忘れられた記憶と、少女の声 ～</p>
+            <img src="images/kasetto.png" alt="カセットテープ" class="title-image">
             <div class="title-buttons">
                 <button id="startBtn" class="title-btn">はじめから</button>
                 <button id="loadBtn" class="title-btn">つづきから</button>
@@ -28,7 +29,7 @@
     <div id="gameScreen" class="screen">
         <!-- 背景画像 -->
         <div id="backgroundContainer">
-            <img id="background" src="./assets/images/bg_classroom.jpg" alt="背景">
+            <img id="background" src="images/houkago.png" alt="背景">
             <div id="backgroundOverlay"></div>
         </div>
 
@@ -89,7 +90,7 @@
     </div>
 
     <!-- 音声要素 -->
-    <audio id="bgmPlayer" loop preload="auto"></audio>
+    <audio id="bgmPlayer" src="audio/houkago.mp3" loop preload="auto" autoplay></audio>
     <audio id="sePlayer" preload="auto"></audio>
 
     <script src="script.js"></script>
