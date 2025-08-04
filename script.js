@@ -76,7 +76,7 @@ const scenario = {
     },
     "ending_true": {
         "text": "『ありがとう、楓ちゃん。ずっと一人だったけど、やっと安らげる』\n\nユリの声が暖かく響き、教室が優しい光に包まれる。\n\n『今度は、ちゃんとお別れを言えるね』\n\n私は涙を流しながら、小さく頷いた。親友との、本当のお別れ。\n\n--- True End: 友情の絆 ---",
-        "bg": "images/kasetto.png",
+        "bg": "images/hikari.png",
         "bgm": "audio/houkago.mp3",
         "se": null,
         "speaker": "ユリ",
