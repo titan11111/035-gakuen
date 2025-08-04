@@ -22,8 +22,8 @@ let autoInterval = null;
 const scenario = {
     "start": {
         "text": "放課後の教室。夕日が窓から差し込んで、机や椅子に長い影を作っている。\n\n（今日も一人か...）\n\n机の引き出しを整理していると、奥から古いカセットテープが出てきた。ラベルには「楓へ」と書かれている。\n\n（これ、私の名前...でも誰が？）",
-        "bg": "./assets/images/bg_classroom.jpg",
-        "bgm": "./assets/audio/bgm_intro.mp3",
+        "bg": "images/houkago.png",
+        "bgm": "audio/houkago.mp3",
         "se": null,
         "choices": {
             "カセットを再生してみる": "scene1",
@@ -32,9 +32,9 @@ const scenario = {
     },
     "scene1": {
         "text": "古いラジカセにカセットを入れて再生ボタンを押す。\n\n『...楓ちゃん、聞こえる？』\n\n知らない女の子の声。でも、なぜか懐かしい感じがする。\n\n『私はユリ。覚えてない？小学校の時の...』\n\n（ユリ...？小学校の時の記憶が曖昧で...）",
-        "bg": "./assets/images/bg_classroom.jpg",
-        "bgm": "./assets/audio/bgm_mystery.mp3",
-        "se": "./assets/audio/se_tape_insert.mp3",
+        "bg": "images/hikari.png",
+        "bgm": "audio/houkago.mp3",
+        "se": null,
         "speaker": "謎の声",
         "choices": {
             "もっと聞いてみる": "scene2",
@@ -43,8 +43,8 @@ const scenario = {
     },
     "scene2": {
         "text": "『あの頃、私たちはいつも一緒だった。図書室で本を読んだり、屋上で空を見上げたり...』\n\n少しずつ記憶の欠片が戻ってくる。小学校5年生の時、確かに仲良しの女の子がいた。\n\n（そうだ...ユリちゃん。転校していったんだ）\n\n『でも楓ちゃん、私はもういない。だから、この声だけが私の全て...』",
-        "bg": "./assets/images/bg_library.jpg",
-        "bgm": "./assets/audio/bgm_memory.mp3",
+        "bg": "images/kasetto.png",
+        "bgm": "audio/houkago.mp3",
         "se": null,
         "speaker": "ユリ",
         "choices": {
@@ -54,8 +54,8 @@ const scenario = {
     },
     "scene3_true": {
         "text": "『楓ちゃん...私のこと、本当に覚えてくれてるんだね』\n\nユリの声が嬉しそうに響く。\n\n『実は私、あの時の事故で...でも、楓ちゃんと過ごした思い出だけは消えなくて』\n\n（事故...？そうだ、ユリちゃんは転校じゃなくて...）\n\n記憶の奥から、悲しい真実が浮かび上がってくる。",
-        "bg": "./assets/images/bg_memory.jpg",
-        "bgm": "./assets/audio/bgm_sad.mp3",
+        "bg": "images/houkago.png",
+        "bgm": "audio/houkago.mp3",
         "se": null,
         "speaker": "ユリ",
         "choices": {
@@ -65,9 +65,9 @@ const scenario = {
     },
     "scene3_mystery": {
         "text": "『夢かもしれない。現実かもしれない。でも、この気持ちは本物よ』\n\n教室が薄暗くなり、不思議な光が漂い始める。\n\n『楓ちゃん、信じて。私たちの友情を』\n\n（何か大切なことを忘れているような...）",
-        "bg": "./assets/images/bg_mystery.jpg",
-        "bgm": "./assets/audio/bgm_mysterious.mp3",
-        "se": "./assets/audio/se_mystery.mp3",
+        "bg": "images/hikari.png",
+        "bgm": "audio/houkago.mp3",
+        "se": null,
         "speaker": "ユリ",
         "choices": {
             "信じる": "scene4_trust",
@@ -76,32 +76,32 @@ const scenario = {
     },
     "ending_true": {
         "text": "『ありがとう、楓ちゃん。ずっと一人だったけど、やっと安らげる』\n\nユリの声が暖かく響き、教室が優しい光に包まれる。\n\n『今度は、ちゃんとお別れを言えるね』\n\n私は涙を流しながら、小さく頷いた。親友との、本当のお別れ。\n\n--- True End: 友情の絆 ---",
-        "bg": "./assets/images/bg_sunset.jpg",
-        "bgm": "./assets/audio/bgm_ending_true.mp3",
+        "bg": "images/kasetto.png",
+        "bgm": "audio/houkago.mp3",
         "se": null,
         "speaker": "ユリ",
         "choices": {}
     },
     "ending_bittersweet": {
         "text": "『そう...お別れの時なのね』\n\nユリの声に寂しさが滲む。\n\n『でも楓ちゃん、私たちの思い出は永遠よ。大人になっても、忘れないで』\n\n夕日が教室を染める中、カセットの音が静かに止まった。\n\n机の上には、一枚の古い写真。笑顔の私とユリちゃんが写っている。\n\n--- Bittersweet End: 思い出の中で ---",
-        "bg": "./assets/images/bg_sunset.jpg",
-        "bgm": "./assets/audio/bgm_ending_bitter.mp3",
-        "se": "./assets/audio/se_tape_stop.mp3",
+        "bg": "images/houkago.png",
+        "bgm": "audio/houkago.mp3",
+        "se": null,
         "speaker": null,
         "choices": {}
     },
     "scene_bad1": {
         "text": "カセットを捨てて家に帰った。\n\nでも夜、夢の中で女の子の泣き声が聞こえ続けた。\n\n『楓ちゃん...どうして...』\n\n朝起きると、枕が涙で濡れていた。\n\n大切な何かを失ってしまったような、そんな気持ちだった。\n\n--- Bad End: 失われた記憶 ---",
-        "bg": "./assets/images/bg_night.jpg",
-        "bgm": "./assets/audio/bgm_bad.mp3",
+        "bg": "images/hikari.png",
+        "bgm": "audio/houkago.mp3",
         "se": null,
         "speaker": null,
         "choices": {}
     },
     "scene_bad2": {
         "text": "怖くなってカセットを止めた。\n\n教室に静寂が戻る。でも心の奥で、誰かが泣いているような気がした。\n\n（気のせい...よね？）\n\nそれからしばらく、時々聞こえる小さな声に悩まされることになった。\n\n--- Bad End: 届かなかった声 ---",
-        "bg": "./assets/images/bg_classroom.jpg",
-        "bgm": "./assets/audio/bgm_sad.mp3",
+        "bg": "images/kasetto.png",
+        "bgm": "audio/houkago.mp3",
         "se": null,
         "speaker": null,
         "choices": {}
@@ -324,7 +324,6 @@ function showChoices() {
 // 選択肢を選択
 function selectChoice(nextScene) {
     elements.choicesContainer.innerHTML = '';
-    playSe('./assets/audio/se_select.mp3');
     setTimeout(() => {
         loadScene(nextScene);
     }, 500);
@@ -538,12 +537,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // 画像の遅延読み込み対応
 function preloadImages() {
     const imageUrls = [
-        './assets/images/bg_classroom.jpg',
-        './assets/images/bg_library.jpg',
-        './assets/images/bg_memory.jpg',
-        './assets/images/bg_mystery.jpg',
-        './assets/images/bg_sunset.jpg',
-        './assets/images/bg_night.jpg'
+        'images/houkago.png',
+        'images/hikari.png',
+        'images/kasetto.png'
     ];
     
     imageUrls.forEach(url => {

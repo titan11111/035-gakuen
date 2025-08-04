@@ -61,6 +61,13 @@ body {
   opacity: 0.9;
 }
 
+.title-image {
+  max-width: 50%;
+  height: auto;
+  display: block;
+  margin: 1rem auto 2rem;
+}
+
 .title-buttons {
   display: flex;
   flex-direction: column;
