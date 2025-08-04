@@ -74,6 +74,22 @@ const scenario = {
             "疑う": "scene4_doubt"
         }
     },
+    "scene4_trust": {
+        "text": "私はユリの言葉を信じて目を閉じた。\n\n暖かな光が身体を包み、懐かしい気配がそっと寄り添う。\n\n『信じてくれてありがとう、楓ちゃん』\n\n光の中にユリの姿が浮かび、穏やかな微笑みを向けている。\n\n『もう大丈夫。私はここで見守ってるから』\n\n涙を拭いながら、私は静かに頷いた。\n\n--- Secret End: 信じる心 ---",
+        "bg": "images/hikari.png",
+        "bgm": "audio/houkago.mp3",
+        "se": null,
+        "speaker": "ユリ",
+        "choices": {}
+    },
+    "scene4_doubt": {
+        "text": "私は首を振った。こんなのはきっと夢だ。\n\nその瞬間、教室を漂っていた光が消え、録音された声が途切れがちに歪む。\n\n『そっか…信じてくれないんだね』\n\nか細い呟きと共に、カセットは静かに止まった。\n\n胸に残ったのは説明のつかない空虚感だけだった。\n\n--- Bad End: 途切れた絆 ---",
+        "bg": "images/kasetto.png",
+        "bgm": "audio/houkago.mp3",
+        "se": null,
+        "speaker": null,
+        "choices": {}
+    },
     "ending_true": {
         "text": "『ありがとう、楓ちゃん。ずっと一人だったけど、やっと安らげる』\n\nユリの声が暖かく響き、教室が優しい光に包まれる。\n\n『今度は、ちゃんとお別れを言えるね』\n\n私は涙を流しながら、小さく頷いた。親友との、本当のお別れ。\n\n--- True End: 友情の絆 ---",
         "bg": "images/hikari.png",
