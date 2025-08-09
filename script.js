@@ -121,6 +121,22 @@ const scenario = {
         "se": null,
         "speaker": null,
         "choices": {}
+    },
+    "ura_start": {
+        "text": "裏面プレイがはじまった。ここからは別の物語が展開する。\\n\\n未知の世界へ足を踏み入れた。",
+        "bg": "images/houkago.png",
+        "bgm": "audio/houkago.mp3",
+        "se": null,
+        "choices": {
+            "続ける": "ura_scene1"
+        }
+    },
+    "ura_scene1": {
+        "text": "これは裏面プレイのサンプルシーンです。\\n\\n短い物語の終わり。",
+        "bg": "images/hikari.png",
+        "bgm": "audio/houkago.mp3",
+        "se": null,
+        "choices": {}
     }
 };
 
@@ -144,6 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeElements();
     setupEventListeners();
     loadSettings();
+    updateTitleButtons();
     showScreen('titleScreen');
 });
 
@@ -168,6 +185,7 @@ function setupEventListeners() {
     document.getElementById('startBtn').addEventListener('click', () => startNewGame());
     document.getElementById('loadBtn').addEventListener('click', () => loadGame());
     document.getElementById('configBtn').addEventListener('click', () => showScreen('configScreen'));
+    document.getElementById('uraBtn').addEventListener('click', () => startUraGame());
 
     // ゲーム画面
     document.getElementById('menuBtn').addEventListener('click', () => showScreen('menuScreen'));
@@ -235,6 +253,15 @@ function returnToTitle() {
     resetGame();
     gameState = new GameState();
     showScreen('titleScreen');
+    updateTitleButtons();
+}
+
+// 裏面ボタンの表示更新
+function updateTitleButtons() {
+    const uraBtn = document.getElementById('uraBtn');
+    if (!uraBtn) return;
+    const cleared = localStorage.getItem('gameCleared') === 'true';
+    uraBtn.style.display = cleared ? 'block' : 'none';
 }
 
 // 新しいゲームを開始
@@ -243,6 +270,14 @@ function startNewGame() {
     gameState = new GameState();
     showScreen('gameScreen');
     loadScene('start');
+}
+
+// 裏面プレイ開始
+function startUraGame() {
+    resetGame();
+    gameState = new GameState();
+    showScreen('gameScreen');
+    loadScene('ura_start');
 }
 
 // シーンをロード
@@ -358,6 +393,7 @@ function showChoices() {
         });
     } else {
         // エンディングの場合
+        localStorage.setItem('gameCleared', 'true');
         setTimeout(() => {
             const button = document.createElement('button');
             button.className = 'choice-btn';
