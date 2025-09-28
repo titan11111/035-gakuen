@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>放課後、
-    願いはカセットに。</title>
+    <title>放課後、願いはカセットに。</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- タイトル画面 -->
     <div id="titleScreen" class="screen active">
         <div class="title-container">
-            <h1 class="main-title">放課後、<br>願いはカセットに。</h1>
+            <h1 class="main-title">放課後、願いはカセットに。</h1>
             <p class="subtitle">～ 忘れられた記憶と、少女の声 ～</p>
-            <img src="images/kasetto.png" alt="カセットテープ" class="title-image">
             <div class="title-buttons">
                 <button id="startBtn" class="title-btn">はじめから</button>
                 <button id="loadBtn" class="title-btn">つづきから</button>
                 <button id="configBtn" class="title-btn">設定</button>
-                <button id="uraBtn" class="title-btn" style="display:none;">裏面プレイ</button>
             </div>
             <div class="credits">
                 <p>BGM: フリー音楽素材 H/MIX GALLERY</p>
@@ -31,7 +28,7 @@
     <div id="gameScreen" class="screen">
         <!-- 背景画像 -->
         <div id="backgroundContainer">
-            <img id="background" src="images/houkago.png" alt="背景">
+            <img id="background" src="./assets/images/bg_classroom.jpg" alt="背景">
             <div id="backgroundOverlay"></div>
         </div>
 
@@ -92,7 +89,7 @@
     </div>
 
     <!-- 音声要素 -->
-    <audio id="bgmPlayer" src="audio/houkago.mp3" loop preload="auto" autoplay></audio>
+    <audio id="bgmPlayer" loop preload="auto"></audio>
     <audio id="sePlayer" preload="auto"></audio>
 
     <script src="script.js"></script>
