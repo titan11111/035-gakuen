@@ -18,92 +18,221 @@ let currentScenario = {};
 let typeInterval = null;
 let autoInterval = null;
 
-// シナリオデータ（通常は外部JSONファイルですが、今回は埋め込み）
+// 使用可能なアセットのパス定数
+const ASSETS = {
+    BG_HOUKAGO: "images/houkago.png",
+    BG_HIKARI: "images/hikari.png",
+    BGM_MAIN: "audio/houkago.mp3"
+};
+
+// シナリオデータ（3倍拡張版）
 const scenario = {
+    // ---------------------------------------------------------
+    // プロローグ：孤独な放課後
+    // ---------------------------------------------------------
     "start": {
-        "text": "放課後の教室。夕日が窓から差し込んで、机や椅子に長い影を作っている。\n\n（今日も一人か...）\n\n机の引き出しを整理していると、奥から古いカセットテープが出てきた。ラベルには「楓へ」と書かれている。\n\n（これ、私の名前...でも誰が？）",
-        "bg": "./assets/images/bg_classroom.jpg",
-        "bgm": "./assets/audio/bgm_intro.mp3",
+        "text": "茜色に染まる放課後の教室。\n古びた校舎特有の、埃とワックスの混じった匂いが鼻をくすぐる。\n\nクラスメイトたちの賑やかな声は校門の向こうへと遠ざかり、今はただ、時計の針が進む音だけが響いている。\n\n（今日もまた、一日が終わる...）\n\n帰り支度をしようと机の奥に手を伸ばすと、指先に硬いプラスチックの感触が触れた。",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
         "se": null,
         "choices": {
-            "カセットを再生してみる": "scene1",
-            "気味が悪いので捨てる": "scene_bad1"
+            "引き出してみる": "inspect_tape",
+            "無視して帰る": "scene_ignore_early"
         }
     },
-    "scene1": {
-        "text": "古いラジカセにカセットを入れて再生ボタンを押す。\n\n『...楓ちゃん、聞こえる？』\n\n知らない女の子の声。でも、なぜか懐かしい感じがする。\n\n『私はユリ。覚えてない？小学校の時の...』\n\n（ユリ...？小学校の時の記憶が曖昧で...）",
-        "bg": "./assets/images/bg_classroom.jpg",
-        "bgm": "./assets/audio/bgm_mystery.mp3",
-        "se": "./assets/audio/se_tape_insert.mp3",
-        "speaker": "謎の声",
+    "scene_ignore_early": {
+        "text": "気のせいだろう。\n私は鞄を掴むと、逃げるように教室を後にした。\n\nでも、背中で何かが落ちる音がしたような気がして、その日は一晩中眠れなかった。\n\n--- Bad End: 臆病な逃走 ---",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": null,
+        "choices": {}
+    },
+    "inspect_tape": {
+        "text": "出てきたのは、埃を被った古いカセットテープだった。\nラベルには色褪せたマジックで『親愛なる楓へ』と記されている。\n\n（楓...私の名前だ。でも、この筆跡は...）\n\n見覚えがあるような、ないような。胸の奥がざわつく不思議な感覚。\n教室の隅には、誰かが置き忘れたポータブルラジカセが置かれている。",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
         "choices": {
-            "もっと聞いてみる": "scene2",
-            "怖くなって止める": "scene_bad2"
+            "再生する": "play_tape_intro",
+            "躊躇する": "hesitate_tape"
         }
     },
-    "scene2": {
-        "text": "『あの頃、私たちはいつも一緒だった。図書室で本を読んだり、屋上で空を見上げたり...』\n\n少しずつ記憶の欠片が戻ってくる。小学校5年生の時、確かに仲良しの女の子がいた。\n\n（そうだ...ユリちゃん。転校していったんだ）\n\n『でも楓ちゃん、私はもういない。だから、この声だけが私の全て...』",
-        "bg": "./assets/images/bg_library.jpg",
-        "bgm": "./assets/audio/bgm_memory.mp3",
-        "se": null,
+    "hesitate_tape": {
+        "text": "不気味な予感がして手が止まる。\nしかし、窓から差し込む夕日がテープを照らし、まるで「聞いて」と訴えかけているように見えた。\n\n好奇心が恐怖に勝る。私は意を決してラジカセにテープをセットした。",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
+        "choices": {
+            "再生ボタンを押す": "play_tape_intro"
+        }
+    },
+
+    // ---------------------------------------------------------
+    // 第1章：謎の声と既視感
+    // ---------------------------------------------------------
+    "play_tape_intro": {
+        "text": "『カチッ...ザザッ...ザーー...』\n\n激しいノイズ音。\n壊れているのかと思ったその時、ノイズの向こうから少女の声が浮かび上がってきた。\n\n『...あー、あー。聞こえてる？ 楓ちゃん』\n\n心臓が跳ねた。知らない声だ。それなのに、なぜこんなに懐かしい響きがするのだろう。",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "テープの声",
+        "choices": {
+            "耳を澄ます": "scene_voice_1",
+            "「誰？」と問いかける": "scene_voice_1_ask"
+        }
+    },
+    "scene_voice_1_ask": {
+        "text": "「誰なの...？」\n思わず独り言が漏れる。もちろん、テープからの返事はない。\nしかし、まるで会話が成立しているかのように、声は続いた。",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "カエデ",
+        "choices": {
+            "続きを聞く": "scene_voice_1"
+        }
+    },
+    "scene_voice_1": {
+        "text": "『私はユリ。もう忘れちゃったかな？\n小学校の図書室。雨の日。赤いしおり。』\n\n単語が並べられるたびに、私の脳裏に白い霧が晴れるような感覚が走る。\n\n『私たちが初めて出会った日のこと、覚えてる？』",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
         "speaker": "ユリ",
         "choices": {
-            "「ユリちゃん、どこにいるの？」": "scene3_true",
-            "「これは夢なの？」": "scene3_mystery"
+            "思い出す": "flashback_library",
+            "思い出せない": "scene_amnesia"
         }
     },
-    "scene3_true": {
-        "text": "『楓ちゃん...私のこと、本当に覚えてくれてるんだね』\n\nユリの声が嬉しそうに響く。\n\n『実は私、あの時の事故で...でも、楓ちゃんと過ごした思い出だけは消えなくて』\n\n（事故...？そうだ、ユリちゃんは転校じゃなくて...）\n\n記憶の奥から、悲しい真実が浮かび上がってくる。",
-        "bg": "./assets/images/bg_memory.jpg",
-        "bgm": "./assets/audio/bgm_sad.mp3",
-        "se": null,
-        "speaker": "ユリ",
+    
+    // ---------------------------------------------------------
+    // 第2章：追体験（回想シーン）
+    // ---------------------------------------------------------
+    "flashback_library": {
+        "text": "視界が白く滲む。\n気がつくと、私は夕暮れの教室ではなく、雨の日の薄暗い図書室にいた。\n\n（そうだ...私は本が好きで、いつも一人でここにいた）\n\n『ねえ、それ「銀河鉄道の夜」？』\n\n顔を上げると、ショートカットの女の子が屈託のない笑顔で覗き込んでいた。",
+        "bg": ASSETS.BG_HIKARI, // 回想は明るい（あるいは幻想的な）イメージとして使用
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "記憶の中のユリ",
         "choices": {
-            "「一緒にいよう」": "ending_true",
-            "「さよならを言おう」": "ending_bittersweet"
+            "「うん、そうだよ」": "flashback_library_2"
         }
     },
-    "scene3_mystery": {
-        "text": "『夢かもしれない。現実かもしれない。でも、この気持ちは本物よ』\n\n教室が薄暗くなり、不思議な光が漂い始める。\n\n『楓ちゃん、信じて。私たちの友情を』\n\n（何か大切なことを忘れているような...）",
-        "bg": "./assets/images/bg_mystery.jpg",
-        "bgm": "./assets/audio/bgm_mysterious.mp3",
-        "se": "./assets/audio/se_mystery.mp3",
+    "flashback_library_2": {
+        "text": "『私も大好きなの！ カムパネルラって切ないよね』\n\nそれがユリだった。\nあの日から私たちは、まるで磁石が引き合うようにいつも一緒にいた。\n\n交換日記。秘密基地。屋上で食べた溶けたアイスクリーム。\n\n...どうして、こんな大切な友達のことを忘れていたんだろう？",
+        "bg": ASSETS.BG_HIKARI,
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "カエデ",
+        "choices": {
+            "現実に戻る": "scene_reality_return"
+        }
+    },
+    "scene_amnesia": {
+        "text": "頭が痛い。\n何か思い出そうとすると、黒いモヤがかかったように思考が遮断される。\nでも、涙だけが自然と溢れてくる。\n\n『無理しないで。でも、これだけは伝えたくて...』",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
         "speaker": "ユリ",
         "choices": {
-            "信じる": "scene4_trust",
-            "疑う": "scene4_doubt"
+            "先を聞く": "scene_reality_return"
+        }
+    },
+
+    // ---------------------------------------------------------
+    // 第3章：残酷な真実
+    // ---------------------------------------------------------
+    "scene_reality_return": {
+        "text": "ふと我に返ると、教室の影はさらに長く伸びていた。\nラジカセのテープが回る音だけが、現実の音だ。\n\n『楓ちゃん。私ね、本当は転校したんじゃないの』\n\n声のトーンが少し落ちる。\n\n『あの日...約束した夏祭りの日。行く途中で、私...』",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "ユリ",
+        "choices": {
+            "聞きたくない！": "scene_denial",
+            "真実を受け入れる": "scene_truth_pre"
+        }
+    },
+    "scene_denial": {
+        "text": "嫌だ、聞きたくない。\n思い出したくない。\n激しいブレーキ音。サイレンの音。冷たい雨。\n\n私は耳を塞ごうとしたが、身体が金縛りにあったように動かない。",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
+        "choices": {
+            "それでも聞く": "scene_truth_pre",
+            "テープを止める": "bad_end_stop"
+        }
+    },
+    "scene_truth_pre": {
+        "text": "『事故だったの。あっという間だった。\n目が覚めたら、もう誰も私の声に気づいてくれなくて...』\n\nそうだ。\nユリは死んだんだ。\n小学5年生の夏。私はそのショックで、彼女に関する記憶をすべて封じ込めていたんだ。",
+        "bg": ASSETS.BG_HIKARI, // 真実への気づき＝光
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "ユリ",
+        "choices": {
+            "「ごめんね...」": "scene_conversation",
+            "「どうして出てきたの？」": "scene_doubt"
+        }
+    },
+
+    // ---------------------------------------------------------
+    // 第4章：境界線での対話
+    // ---------------------------------------------------------
+    "scene_conversation": {
+        "text": "「ごめんね、ユリちゃん。私、忘れてて...」\n涙声で謝る私に、テープの声は優しく答えた（ように聞こえた）。\n\n『いいの。楓ちゃんが笑って生きててくれれば、それだけで』\n\n教室が、夕日とは違う柔らかい光に包まれ始める。\n目の前に、半透明の誰かが立っているような気配がした。",
+        "bg": ASSETS.BG_HIKARI,
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "ユリ",
+        "choices": {
+            "気配に手を伸ばす": "scene_climax_true",
+            "ただ泣き崩れる": "scene_climax_bitter"
+        }
+    },
+    "scene_doubt": {
+        "text": "「死んだはずなのに、どうして...これは呪いなの？」\n\n『違うよ、楓ちゃん。私はただ、さよならが言いたかっただけ』\n\n声は悲しげに揺らぐ。\n教室の空気が冷たく張り詰める。",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "ユリ",
+        "choices": {
+            "信じる": "scene_climax_bitter",
+            "拒絶する": "bad_end_reject"
+        }
+    },
+
+    // ---------------------------------------------------------
+    // クライマックス＆エンディング
+    // ---------------------------------------------------------
+    "scene_climax_true": {
+        "text": "手を伸ばすと、温かい空気に触れた。\nそこには確かに、あの頃のままのユリが笑っていた。\n\n『やっと会えたね』\n\n言葉ではなく、心に直接響く声。\n私たちは言葉を交わさなくても、互いの想いが流れ込んでくるのを感じた。",
+        "bg": ASSETS.BG_HIKARI,
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "ユリ",
+        "choices": {
+            "「ありがとう」と言う": "ending_true"
         }
     },
     "ending_true": {
-        "text": "『ありがとう、楓ちゃん。ずっと一人だったけど、やっと安らげる』\n\nユリの声が暖かく響き、教室が優しい光に包まれる。\n\n『今度は、ちゃんとお別れを言えるね』\n\n私は涙を流しながら、小さく頷いた。親友との、本当のお別れ。\n\n--- True End: 友情の絆 ---",
-        "bg": "./assets/images/bg_sunset.jpg",
-        "bgm": "./assets/audio/bgm_ending_true.mp3",
-        "se": null,
-        "speaker": "ユリ",
+        "text": "『ありがとう、楓ちゃん。これで私、本当に行けるよ』\n\n光が強くなり、やがて粒子となって空へと溶けていく。\nカセットテープの回転が「カチッ」と音を立てて止まった。\n\n私は涙を拭き、窓を開けた。\n入ってきた風は、もう冷たくなかった。\n\n--- True End: 銀河への旅立ち ---",
+        "bg": ASSETS.BG_HIKARI,
+        "bgm": ASSETS.BGM_MAIN,
         "choices": {}
+    },
+
+    "scene_climax_bitter": {
+        "text": "『時間が来たみたい』\n\nテープの回転が遅くなる。\n\n『楓ちゃん、私の分まで生きてね。大人になって、恋をして、おばあちゃんになって...』\n\n最後の言葉は、ノイズに混じって消えていった。",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
+        "speaker": "ユリ",
+        "choices": {
+            "カセットを取り出す": "ending_bittersweet"
+        }
     },
     "ending_bittersweet": {
-        "text": "『そう...お別れの時なのね』\n\nユリの声に寂しさが滲む。\n\n『でも楓ちゃん、私たちの思い出は永遠よ。大人になっても、忘れないで』\n\n夕日が教室を染める中、カセットの音が静かに止まった。\n\n机の上には、一枚の古い写真。笑顔の私とユリちゃんが写っている。\n\n--- Bittersweet End: 思い出の中で ---",
-        "bg": "./assets/images/bg_sunset.jpg",
-        "bgm": "./assets/audio/bgm_ending_bitter.mp3",
-        "se": "./assets/audio/se_tape_stop.mp3",
-        "speaker": null,
+        "text": "静寂が戻った教室。\n手の中のカセットテープは、もうただのプラスチックの塊に戻っていた。\n\nでも、胸の痛みは消えていた。\n私はカセットをポケットにしまい、一歩を踏み出した。\n\n「さよなら、ユリちゃん」\n\n--- Normal End: ポケットの中の青春 ---",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": ASSETS.BGM_MAIN,
         "choices": {}
     },
-    "scene_bad1": {
-        "text": "カセットを捨てて家に帰った。\n\nでも夜、夢の中で女の子の泣き声が聞こえ続けた。\n\n『楓ちゃん...どうして...』\n\n朝起きると、枕が涙で濡れていた。\n\n大切な何かを失ってしまったような、そんな気持ちだった。\n\n--- Bad End: 失われた記憶 ---",
-        "bg": "./assets/images/bg_night.jpg",
-        "bgm": "./assets/audio/bgm_bad.mp3",
-        "se": null,
-        "speaker": null,
+
+    // ---------------------------------------------------------
+    // バッドエンディング群
+    // ---------------------------------------------------------
+    "bad_end_stop": {
+        "text": "ブチッ。\n私は強制的に再生を停止した。\n\nこれ以上聞いてはいけない気がした。\n教室を出ようとした時、背後のスピーカーから微かに声が漏れた。\n\n『...なんで...聞いてくれないの...？』\n\n電源は切れているはずなのに。\n\n--- Bad End: 残留思念 ---",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": null,
         "choices": {}
     },
-    "scene_bad2": {
-        "text": "怖くなってカセットを止めた。\n\n教室に静寂が戻る。でも心の奥で、誰かが泣いているような気がした。\n\n（気のせい...よね？）\n\nそれからしばらく、時々聞こえる小さな声に悩まされることになった。\n\n--- Bad End: 届かなかった声 ---",
-        "bg": "./assets/images/bg_classroom.jpg",
-        "bgm": "./assets/audio/bgm_sad.mp3",
-        "se": null,
-        "speaker": null,
+    "bad_end_reject": {
+        "text": "「来ないで！ あなたはもういないの！」\n\n私が叫ぶと、ラジカセからキーンという甲高い音が響き渡った。\n窓ガラスがビリビリと振動する。\n\n『ひどいよ...楓ちゃん...ずっと一緒だって言ったのに...』\n\n視界が暗転する。\n闇の中で、冷たい手が私の手首を掴んだ気がした。\n\n--- Bad End: 終わらない放課後 ---",
+        "bg": ASSETS.BG_HOUKAGO,
+        "bgm": null,
         "choices": {}
     }
 };
@@ -129,6 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     loadSettings();
     showScreen('titleScreen');
+    preloadImages();
 });
 
 // DOM要素を取得
@@ -200,7 +330,10 @@ function startNewGame() {
 
 // シーンをロード
 function loadScene(sceneId) {
-    if (!scenario[sceneId]) return;
+    if (!scenario[sceneId]) {
+        console.error('Scenario not found:', sceneId);
+        return;
+    }
     
     gameState.currentScene = sceneId;
     gameState.readScenes.add(sceneId);
@@ -214,6 +347,9 @@ function loadScene(sceneId) {
     // BGM変更
     if (currentScenario.bgm) {
         playBgm(currentScenario.bgm);
+    } else if (currentScenario.bgm === null) {
+        // BGM停止指示の場合
+        elements.bgmPlayer.pause();
     }
     
     // 効果音再生
@@ -237,6 +373,10 @@ function loadScene(sceneId) {
 
 // 背景変更
 function changeBackground(imagePath) {
+    if (elements.background.getAttribute('src') === imagePath && !elements.background.classList.contains('fade-out')) {
+        return;
+    }
+
     elements.background.classList.add('fade-out');
     setTimeout(() => {
         elements.background.src = imagePath;
@@ -247,15 +387,20 @@ function changeBackground(imagePath) {
 
 // BGM再生
 function playBgm(audioPath) {
-    if (elements.bgmPlayer.src !== audioPath) {
+    const currentSrc = elements.bgmPlayer.getAttribute('src');
+    // パスが異なる場合のみ再読み込み・再生
+    if (!currentSrc || currentSrc.indexOf(audioPath) === -1) {
         elements.bgmPlayer.src = audioPath;
         elements.bgmPlayer.volume = gameState.bgmVolume;
         elements.bgmPlayer.play().catch(e => console.log('BGM再生エラー:', e));
+    } else if (elements.bgmPlayer.paused) {
+        elements.bgmPlayer.play().catch(e => console.log('BGM再開エラー:', e));
     }
 }
 
 // 効果音再生
 function playSe(audioPath) {
+    if (!audioPath) return;
     elements.sePlayer.src = audioPath;
     elements.sePlayer.volume = gameState.seVolume;
     elements.sePlayer.play().catch(e => console.log('SE再生エラー:', e));
@@ -263,21 +408,25 @@ function playSe(audioPath) {
 
 // テキストをタイピング風に表示
 function typeText(text, callback) {
-    if (gameState.isTyping) return;
+    if (typeInterval) {
+        clearInterval(typeInterval);
+        typeInterval = null;
+    }
     
     gameState.isTyping = true;
     elements.gameText.textContent = '';
     elements.nextIndicator.style.display = 'none';
     
     let index = 0;
-    const speed = 100 - (gameState.textSpeed * 10);
+    const speed = Math.max(10, 100 - (gameState.textSpeed * 10)); 
     
     typeInterval = setInterval(() => {
-        if (index < text.length) {
-            elements.gameText.textContent += text[index];
+        if (index <= text.length) {
+            elements.gameText.textContent = text.substring(0, index);
             index++;
         } else {
             clearInterval(typeInterval);
+            typeInterval = null;
             gameState.isTyping = false;
             elements.nextIndicator.style.display = 'block';
             if (callback) callback();
@@ -288,8 +437,11 @@ function typeText(text, callback) {
 // 次のテキストへ
 function nextText() {
     if (gameState.isTyping) {
-        // タイピング中なら一気に表示
-        clearInterval(typeInterval);
+        // タイピング中なら強制的に全表示
+        if (typeInterval) {
+            clearInterval(typeInterval);
+            typeInterval = null;
+        }
         elements.gameText.textContent = currentScenario.text;
         gameState.isTyping = false;
         elements.nextIndicator.style.display = 'block';
@@ -315,7 +467,11 @@ function showChoices() {
             const button = document.createElement('button');
             button.className = 'choice-btn';
             button.textContent = 'タイトルに戻る';
-            button.addEventListener('click', () => showScreen('titleScreen'));
+            button.addEventListener('click', () => {
+                elements.bgmPlayer.pause();
+                elements.bgmPlayer.currentTime = 0;
+                showScreen('titleScreen');
+            });
             elements.choicesContainer.appendChild(button);
         }, 2000);
     }
@@ -324,7 +480,6 @@ function showChoices() {
 // 選択肢を選択
 function selectChoice(nextScene) {
     elements.choicesContainer.innerHTML = '';
-    playSe('./assets/audio/se_select.mp3');
     setTimeout(() => {
         loadScene(nextScene);
     }, 500);
@@ -368,7 +523,6 @@ function stopAutoMode() {
 // スキップ機能
 function toggleSkip() {
     if (gameState.readScenes.has(gameState.currentScene)) {
-        // 既読シーンなら高速表示
         gameState.textSpeed = 10;
         setTimeout(() => {
             gameState.textSpeed = 5;
@@ -427,7 +581,6 @@ function loadSettings() {
         gameState.seVolume = data.seVolume || 0.8;
         gameState.textSpeed = data.textSpeed || 5;
         
-        // UI反映
         document.getElementById('bgmVolume').value = gameState.bgmVolume * 100;
         document.getElementById('seVolume').value = gameState.seVolume * 100;
         document.getElementById('textSpeed').value = gameState.textSpeed;
@@ -506,12 +659,10 @@ function handleSwipe() {
     
     if (Math.abs(diff) > swipeThreshold) {
         if (diff > 0) {
-            // 上スワイプ：メニュー表示
             if (document.getElementById('gameScreen').classList.contains('active')) {
                 showScreen('menuScreen');
             }
         } else {
-            // 下スワイプ：テキスト進行
             nextText();
         }
     }
@@ -522,28 +673,23 @@ window.addEventListener('error', function(e) {
     console.error('エラーが発生しました:', e.error);
 });
 
-// 音声ファイルが見つからない場合の代替処理
 function handleAudioError(audioElement, audioType) {
     audioElement.addEventListener('error', function() {
         console.warn(`${audioType}ファイルが見つかりません: ${audioElement.src}`);
     });
 }
 
-// 音声要素にエラーハンドリングを追加
 document.addEventListener('DOMContentLoaded', function() {
     handleAudioError(elements.bgmPlayer, 'BGM');
     handleAudioError(elements.sePlayer, '効果音');
 });
 
-// 画像の遅延読み込み対応
+// 画像プリロード
 function preloadImages() {
     const imageUrls = [
-        './assets/images/bg_classroom.jpg',
-        './assets/images/bg_library.jpg',
-        './assets/images/bg_memory.jpg',
-        './assets/images/bg_mystery.jpg',
-        './assets/images/bg_sunset.jpg',
-        './assets/images/bg_night.jpg'
+        ASSETS.BG_HOUKAGO,
+        ASSETS.BG_HIKARI,
+        'images/kasetto.png'
     ];
     
     imageUrls.forEach(url => {
@@ -551,8 +697,3 @@ function preloadImages() {
         img.src = url;
     });
 }
-
-// ゲーム開始時に画像を事前読み込み
-document.addEventListener('DOMContentLoaded', function() {
-    preloadImages();
-});
