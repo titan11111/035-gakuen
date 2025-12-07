@@ -38,34 +38,65 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto; /* 小さい画面での見切れ防止 */
 }
 
 .title-container {
   text-align: center;
   animation: fadeInUp 1s ease-out;
+  width: 95%;
+  max-width: 800px;
+  padding: 20px 0;
 }
 
 .main-title {
-  font-size: clamp(2rem, 6vw, 4rem);
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  /* ★修正ポイント：文字サイズを自動調整し、勝手な改行を防ぐ */
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+  
+  /* グラデーション文字設定 */
   background: linear-gradient(45deg, #fff, #87ceeb);
+  background-size: 200% 200%; /* 背景サイズを大きくして切れ防止 */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  
+  /* 改行設定 */
+  word-break: keep-all; /* 単語途中での改行禁止 */
+  white-space: nowrap;  /* PCなどでは1行を維持 */
+  display: inline-block; /* 描画バグ対策 */
+}
+
+/* タイトル画像 */
+.title-image {
+  max-width: 100%;
+  height: auto;
+  width: 280px;
+  margin: 0 auto 2rem auto;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.title-image:hover {
+  transform: scale(1.05);
 }
 
 .subtitle {
   font-size: clamp(0.9rem, 2.5vw, 1.2rem);
   margin-bottom: 3rem;
   opacity: 0.9;
+  letter-spacing: 0.1em;
 }
 
 .title-buttons {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  align-items: center;
 }
 
 .title-btn {
@@ -78,6 +109,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  width: 220px;
 }
 
 .title-btn:hover {
@@ -90,6 +122,7 @@ body {
   font-size: 0.8rem;
   opacity: 0.6;
   line-height: 1.4;
+  margin-top: 1rem;
 }
 
 /* ゲーム画面 */
@@ -361,6 +394,7 @@ body {
   }
 }
 
+/* スマホなど極端に狭い画面用 */
 @media (max-width: 480px) {
   .title-buttons {
       gap: 0.8rem;
@@ -383,5 +417,15 @@ body {
   .config-item label {
       min-width: auto;
       text-align: center;
+  }
+  
+  /* スマホでのタイトル表示崩れ対策 */
+  .main-title {
+      white-space: normal; /* 改行を許可 */
+      font-size: 2rem;
+      background: none; /* バグ回避のためグラデーション解除 */
+      color: #87ceeb;   /* 代わりに単色を指定 */
+      -webkit-text-fill-color: #87ceeb;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   }
 }
