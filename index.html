@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- タイトル画面 -->
     <div id="titleScreen" class="screen active">
         <div class="title-container">
             <h1 class="main-title">放課後、願いはカセットに。</h1>
+            <img src="images/kasetto.png" alt="カセットテープ" class="title-image">
             <p class="subtitle">～ 忘れられた記憶と、少女の声 ～</p>
             <div class="title-buttons">
                 <button id="startBtn" class="title-btn">はじめから</button>
@@ -18,21 +18,17 @@
                 <button id="configBtn" class="title-btn">設定</button>
             </div>
             <div class="credits">
-                <p>BGM: フリー音楽素材 H/MIX GALLERY</p>
-                <p>効果音: 効果音ラボ</p>
+                <p>BGM: オリジナル楽曲</p>
             </div>
         </div>
     </div>
 
-    <!-- ゲーム画面 -->
     <div id="gameScreen" class="screen">
-        <!-- 背景画像 -->
         <div id="backgroundContainer">
-            <img id="background" src="./assets/images/bg_classroom.jpg" alt="背景">
+            <img id="background" src="images/houkago.png" alt="背景">
             <div id="backgroundOverlay"></div>
         </div>
 
-        <!-- テキストボックス -->
         <div id="textContainer">
             <div id="nameBox"></div>
             <div id="textBox">
@@ -41,10 +37,8 @@
             </div>
         </div>
 
-        <!-- 選択肢 -->
         <div id="choicesContainer"></div>
 
-        <!-- UI -->
         <div id="gameUI">
             <button id="menuBtn" class="ui-btn">メニュー</button>
             <button id="autoBtn" class="ui-btn">オート</button>
@@ -53,7 +47,6 @@
         </div>
     </div>
 
-    <!-- 設定画面 -->
     <div id="configScreen" class="screen">
         <div class="config-container">
             <h2>設定</h2>
@@ -76,7 +69,6 @@
         </div>
     </div>
 
-    <!-- メニュー画面 -->
     <div id="menuScreen" class="screen">
         <div class="menu-container">
             <h2>メニュー</h2>
@@ -88,7 +80,6 @@
         </div>
     </div>
 
-    <!-- 音声要素 -->
     <audio id="bgmPlayer" loop preload="auto"></audio>
     <audio id="sePlayer" preload="auto"></audio>
 
