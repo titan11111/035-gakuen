@@ -1,3 +1,25 @@
+// 【最新技術 #1】Fetch API + Cache API - オフライン対応
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
+async function fetchAsset(url) {
+    try {
+        const response = await fetch(url);
+        return response.ok ? response : null;
+    } catch (e) {
+        console.warn(`Asset fetch failed: ${url}`);
+        return null;
+    }
+}
+
+// 【最新技術 #2】Web Storage - プレイヤーデータ保存
+const storage = {
+    saveGame: (data) => localStorage.setItem('gakuen_save', JSON.stringify(data)),
+    loadGame: () => JSON.parse(localStorage.getItem('gakuen_save') || '{}'),
+    clearGame: () => localStorage.removeItem('gakuen_save')
+};
+
 // ゲーム状態管理
 class GameState {
     constructor() {
@@ -9,6 +31,20 @@ class GameState {
         this.isAutoMode = false;
         this.readScenes = new Set();
         this.gameFlags = {};
+    }
+
+    // 【最新技術 #3】Audio API - カセット音響再現
+    playTapeSound() {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 50; // カセットテープの「ゴー」音
+        gain.gain.setValueAtTime(0.05, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.2);
     }
 }
 
